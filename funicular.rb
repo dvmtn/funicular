@@ -66,14 +66,8 @@ gsub_file 'app/assets/javascripts/application.js', /\/\/= require jquery.*\n/, "
 after_bundle do
   generate(:'rspec:install')
 
-  inject_into_file 'spec/rails_helper.rb', after: /config.fixture_path.*\n/ do <<-RUBY
-    config.include FactoryGirl::Syntax::Methods
-    RUBY
-  end
-
-  ###############################
-  # Pull into the station
-  ###############################
+  inject_into_file 'spec/rails_helper.rb', "require 'capybara/rspec'", after: "require 'rspec/rails'\n"
+  inject_into_file 'spec/rails_helper.rb', "config.include FactoryGirl::Syntax::Methods", after: /config.fixture_path.*\n/
 
   rake "haml:replace_erbs"
 
