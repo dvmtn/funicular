@@ -83,9 +83,10 @@ gsub_file 'app/assets/javascripts/application.js', /\/\/= require jquery.*\n/, "
 
 after_bundle do
   generate(:'rspec:install')
-
   inject_into_file 'spec/rails_helper.rb', "require 'capybara/rspec'", after: "require 'rspec/rails'\n"
   inject_into_file 'spec/rails_helper.rb', "config.include FactoryGirl::Syntax::Methods", after: /config.fixture_path.*\n/
+
+  run 'guard init'
 
   rake "haml:replace_erbs"
 
