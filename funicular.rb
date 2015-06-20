@@ -21,6 +21,7 @@ gem_group :test do
   gem 'rspec-rails'
   gem 'database_cleaner'
   gem 'capybara'
+  gem 'simplecov'
 end
 
 gem_group :development do
@@ -39,6 +40,23 @@ gem_group :development do
   gem 'sandi_meter', require: false
 end
 
+###############################
+# Setup a better Rakefile
+###############################
+
+rakefile 'default.rake' do
+  %Q{
+require 'rake-n-bake'
+
+task default: %i[
+  bake:code_quality:all
+  bake:rspec
+  bake:coverage:check_specs
+  bake:bundler_audit
+  bake:ok_rainbow
+]
+}
+end
 
 ###############################
 # Remove some default cruft
