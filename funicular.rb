@@ -14,15 +14,13 @@ gem_group :development, :test do
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'meta_request'
-  gem 'metric_fu', require: false
-  gem 'rubocop', require: false
-  gem 'sandi_meter', require: false
   gem 'web-console'
 end
 
 gem_group :test do
   gem 'rspec-rails'
   gem 'database_cleaner'
+  gem 'capybara'
 end
 
 gem_group :development do
@@ -36,6 +34,9 @@ gem_group :development do
   gem 'guard-rspec'
   gem 'guard-livereload'
   gem 'erb2haml'
+  gem 'metric_fu', require: false
+  gem 'rubocop', require: false
+  gem 'sandi_meter', require: false
 end
 
 
