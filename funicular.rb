@@ -47,6 +47,9 @@ end
 run "rm README.rdoc"
 gsub_file 'Gemfile', /#.*\n/, ''
 
+# Sorry Spring, you tend to just complicate things
+gsub_file 'Gemfile', /gem 'spring.*\n/, ""
+
 # So long, turbolinks
 gsub_file 'Gemfile', /gem 'turbolinks.*\n/, ""
 gsub_file 'app/assets/javascripts/application.js', /\/\/= require turbolinks.*\n/, ""
