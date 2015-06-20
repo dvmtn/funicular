@@ -76,18 +76,21 @@ after_bundle do
   git commit: "-a -m 'Initial commit'"
   say 'Inital commit created'
 
-  rake 'db:create db:setup'
+  rake 'db:create db:migrate db:setup' unless no?("Would you like the database creating? (Y/n)", :yellow)
 
+  ###############################
+  # Pull into the station
+  ###############################
 
-  puts '                    /\ '
-  puts '                   /  \ '
-  puts '                  /    \ '
-  puts '                 /      ^^\ '
-  puts '                /          \ '
-  puts '               /\/\/\/\/\/\/\ '
-  puts '              /              \ '
-  puts '             /                \ '
-  puts '            /                  \ '
-  puts '           ----------------------'
-  puts 'Thank you for choosing the DevMountain Funicular Rails-way!'
+  say '                    /\\',           :blue
+  say '                   /  \\',          :blue
+  say '                  /    \\',         :blue
+  say '                 /      ^^\\',      :blue
+  say '                /          \\',     :blue
+  say '               /\/\/\/\/\/\/\\',    :blue
+  say '              /              \\',   :blue
+  say '             /                \\',  :blue
+  say '            /                  \\', :blue
+  say '           ----------------------', :blue
+  say 'Thank you for choosing the DevMountain Funicular Rails-way!'
 end
