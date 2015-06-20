@@ -78,6 +78,9 @@ after_bundle do
   git commit: "-a -m 'Initial commit'"
   say 'Inital commit created'
 
+  rake 'db:create db:setup'
+
+
   puts '                    /\ '
   puts '                   /  \ '
   puts '                  /    \ '
