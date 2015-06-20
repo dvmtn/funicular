@@ -82,9 +82,57 @@ gsub_file 'app/assets/javascripts/application.js', /\/\/= require jquery.*\n/, "
 ###############################
 
 after_bundle do
+  ###############################
+  # Rspec
+  ###############################
+
   generate(:'rspec:install')
-  inject_into_file 'spec/rails_helper.rb', "require 'capybara/rspec'", after: "require 'rspec/rails'\n"
+  inject_into_file 'spec/rails_helper.rb', "require 'capybara/rails'\nrequire 'capybara/rspec'\nrequire 'support/database_cleaner'\n", after: "require 'rspec/rails'\n"
   inject_into_file 'spec/rails_helper.rb', "config.include FactoryGirl::Syntax::Methods", after: /config.fixture_path.*\n/
+  create_file 'spec/features/homepage_spec.rb' do
+    %Q{require 'rails_helper'
+
+describe 'Visiting the homepage' do
+  it 'does something cool'
+end
+}
+  end
+
+  ###############################
+  # Database Cleaner
+  ###############################
+
+  create_file 'spec/support/database_cleaner.rb' do
+%Q{require 'database_cleaner'
+
+RSpec.configure do |config|
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.strategy = :transaction
+  end
+
+  config.before(:each, js: true) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
+end
+}
+  end
+
+
+  ###############################
+  # Misc niceities
+  ###############################
 
   run 'guard init'
 
