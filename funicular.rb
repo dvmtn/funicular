@@ -19,6 +19,7 @@ end
 
 gem_group :test do
   gem 'rspec-rails'
+  gem 'shoulda-matchers'
   gem 'database_cleaner'
   gem 'capybara'
   gem 'simplecov'
@@ -32,9 +33,9 @@ gem_group :development do
   gem 'brakeman'
   gem 'bundler-audit'
   gem 'guard-bundler', require: false
-  gem 'guard-rspec'
-  gem 'guard-livereload'
-  gem 'erb2haml'
+  gem 'guard-rspec', require: false
+  gem 'guard-livereload', require: false
+  gem 'erb2haml', require: false
   gem 'metric_fu', require: false
   gem 'rubocop', require: false
   gem 'sandi_meter', require: false
