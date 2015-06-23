@@ -88,7 +88,7 @@ after_bundle do
 
   generate(:'rspec:install')
   inject_into_file 'spec/rails_helper.rb', "require 'capybara/rails'\nrequire 'capybara/rspec'\nrequire 'support/database_cleaner'\n", after: "require 'rspec/rails'\n"
-  inject_into_file 'spec/rails_helper.rb', "config.include FactoryGirl::Syntax::Methods", after: /config.fixture_path.*\n/
+  inject_into_file 'spec/rails_helper.rb', "\n  config.include FactoryGirl::Syntax::Methods\n", after: /config.fixture_path.*\n/
   create_file 'spec/features/homepage_spec.rb' do
     %Q{require 'rails_helper'
 
