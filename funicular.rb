@@ -32,8 +32,10 @@ gem_group :development do
   gem 'bullet'
   gem 'brakeman'
   gem 'bundler-audit'
+  gem 'spring-commands-rspec'
   gem 'guard-bundler', require: false
   gem 'guard-rspec', require: false
+  gem 'guard-rails', require: false
   gem 'guard-livereload', require: false
   gem 'erb2haml', require: false
   gem 'metric_fu', require: false
@@ -68,9 +70,6 @@ end
 run "rm README.rdoc"
 gsub_file 'Gemfile', /#.*\n/, ''
 
-# Sorry Spring, you tend to just complicate things
-gsub_file 'Gemfile', /gem 'spring.*\n/, ""
-
 # So long, turbolinks
 gsub_file 'Gemfile', /gem 'turbolinks.*\n/, ""
 gsub_file 'app/assets/javascripts/application.js', /\/\/= require turbolinks.*\n/, ""
@@ -90,8 +89,19 @@ after_bundle do
   ###############################
 
   generate(:'rspec:install')
-  inject_into_file 'spec/rails_helper.rb', "require 'capybara/rails'\nrequire 'capybara/rspec'\nrequire 'support/database_cleaner'\n", after: "require 'rspec/rails'\n"
-  inject_into_file 'spec/rails_helper.rb', "\n  config.include FactoryGirl::Syntax::Methods\n", after: /config.fixture_path.*\n/
+  inject_into_file 'spec/rails_helper.rb',
+    %Q{
+  require 'capybara/rails'
+  require 'capybara/rspec'
+  require 'support/database_cleaner'
+  require 'shoulda/matchers'
+  },
+    after: "require 'rspec/rails'\n"
+
+  inject_into_file 'spec/rails_helper.rb',
+    "  config.include FactoryGirl::Syntax::Methods",
+    after: /config.fixture_path.*\n/
+
   create_file 'spec/features/homepage_spec.rb' do
     %Q{require 'rails_helper'
 
@@ -138,6 +148,9 @@ end
   ###############################
 
   run 'guard init'
+  prepend_to_file( 'Guardfile', 'notification :tmux, display_message: true' )
+
+  run 'bundle exec spring binstub rspec'
 
   rake "haml:replace_erbs"
 
