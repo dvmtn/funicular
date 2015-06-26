@@ -64,6 +64,42 @@ task default: %i[
 end
 
 ###############################
+# Setup a better Seeds file
+###############################
+remove_file 'db/seeds.rb'
+create_file('db/seeds.rb') do
+%q{
+puts 'Loading seeds...'
+Dir[File.join Rails.root, 'db', 'seeds', 'all', '*.rb'].each do |file|
+  puts "  -> #{File.basename file}"
+  require file
+end
+
+if Rails.env == 'development'
+  puts 'Loading development seeds...'
+  Dir[File.join Rails.root, 'db', 'seeds', 'development', '*.rb'].each do |file|
+    puts "  -> #{File.basename file}"
+    require file
+  end
+end
+}
+end
+
+empty_directory 'db/seeds'
+empty_directory 'db/seeds/all'
+empty_directory 'db/seeds/development'
+
+create_file 'db/seeds/all/example.rb' do
+  %q{
+# Create files in this directory to create your seed data .
+# For example: 
+#   User.where(name: "Admin").first_or_create(name: "Admin", homepage: "http://devmountain.co.uk", role: :admin)
+}
+end
+
+create_file 'db/seeds/development/example.rb', '# Create files in this directory to add seed data just for development. See db/seeds/all/example.rb for more.'
+
+###############################
 # Remove some default cruft
 ###############################
 
@@ -141,7 +177,6 @@ RSpec.configure do |config|
 end
 }
   end
-
 
   ###############################
   # Misc niceities
