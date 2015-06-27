@@ -116,6 +116,44 @@ gsub_file 'Gemfile', /gem 'jquery.*/, ""
 gsub_file 'app/assets/javascripts/application.js', /\/\/= require jquery.*\n/, ""
 
 ###############################
+# Setup a more helpful Sass
+###############################
+
+create_file 'app/assets/stylesheets/reset.scss' do
+%Q{*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+}
+end
+
+create_file 'app/assets/stylesheets/variables.scss' do
+%Q{$border-radius: 3px;
+}
+end
+
+create_file 'app/assets/stylesheets/mixins.scss' do
+%Q{@mixin border-radius($radius: $border-radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+          border-radius: $radius;
+}
+}
+end
+
+remove_file 'app/assets/stylesheets/application.css'
+create_file 'app/assets/stylesheets/application.css.scss' do
+%Q{@import "variables";
+@import "reset";
+@import "mixins";
+@import "**/*";
+}
+end
+
+###############################
 # Setup some nice things
 ###############################
 
