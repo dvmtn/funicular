@@ -184,6 +184,8 @@ end
 
   run 'guard init'
   prepend_to_file( 'Guardfile', 'notification :tmux, display_message: true' )
+  gsub_file 'Guardfile', /watch\(rails.view_dirs\).*/, 'watch(rails.view_dirs)     { |m| "#{rspec.spec_dir}/features/#{m[1]}" }'
+  gsub_file 'Guardfile', /watch\(rails.layouts\).*/,   'watch(rails.layouts)       { |m| "#{rspec.spec_dir}/features" }'
 
   run 'bundle exec spring binstub rspec'
 
