@@ -92,7 +92,7 @@ empty_directory 'db/seeds/development'
 create_file 'db/seeds/all/example.rb' do
   %q{
 # Create files in this directory to create your seed data .
-# For example: 
+# For example:
 #   User.where(name: "Admin").first_or_create(name: "Admin", homepage: "http://devmountain.co.uk", role: :admin)
 }
 end
@@ -110,10 +110,6 @@ gsub_file 'Gemfile', /#.*\n/, ''
 gsub_file 'Gemfile', /gem 'turbolinks.*\n/, ""
 gsub_file 'app/assets/javascripts/application.js', /\/\/= require turbolinks.*\n/, ""
 gsub_file 'app/views/layouts/application.html.erb', ", 'data-turbolinks-track' => true", ''
-
-# Addios, JQuery
-gsub_file 'Gemfile', /gem 'jquery.*/, ""
-gsub_file 'app/assets/javascripts/application.js', /\/\/= require jquery.*\n/, ""
 
 ###############################
 # Setup a more helpful Sass
