@@ -145,7 +145,6 @@ create_file 'app/assets/stylesheets/application.css.scss' do
 %Q{@import "variables";
 @import "reset";
 @import "mixins";
-@import "**/*";
 }
 end
 
