@@ -6,6 +6,7 @@ gem 'sass-rails'
 gem 'haml-rails'
 gem 'therubyracer',  platforms: :ruby
 gem 'uglifier'
+
 gem 'rake-n-bake'
 
 gem_group :development, :test do
@@ -13,8 +14,6 @@ gem_group :development, :test do
   gem 'pry-byebug'
   gem 'factory_girl_rails'
   gem 'faker'
-  gem 'meta_request'
-  gem 'web-console'
 end
 
 gem_group :test do
@@ -23,24 +22,27 @@ gem_group :test do
   gem 'database_cleaner'
   gem 'capybara'
   gem 'simplecov'
+  gem 'poltergeist'
 end
 
 gem_group :development do
+  gem 'meta_request'
   gem 'coffee-rails-source-maps'
-  gem "better_errors"
-  gem "binding_of_caller"
-  gem 'bullet'
-  gem 'brakeman'
-  gem 'bundler-audit'
   gem 'spring-commands-rspec'
-  gem 'guard-bundler', require: false
-  gem 'guard-rspec', require: false
-  gem 'guard-rails', require: false
+  gem 'erb2haml',         require: false
+
+  gem 'guard-bundler',    require: false
+  gem 'guard-rspec',      require: false
+  gem 'guard-rails',      require: false
   gem 'guard-livereload', require: false
-  gem 'erb2haml', require: false
-  gem 'metric_fu', require: false
-  gem 'rubocop', require: false
-  gem 'sandi_meter', require: false
+
+  gem 'brakeman',         require: false
+  gem 'bullet',           require: false
+  gem 'bundler-audit',    require: false
+  gem 'fasterer',         require: false
+  gem 'metric_fu',        require: false
+  gem 'rubocop',          require: false
+  gem 'sandi_meter',      require: false
 end
 
 ###############################
