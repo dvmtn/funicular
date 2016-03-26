@@ -3,7 +3,7 @@
 ###############################
 
 gem 'sass-rails'
-gem 'haml-rails'
+gem 'slim-rails'
 gem 'therubyracer',  platforms: :ruby
 gem 'uglifier'
 
