@@ -56,6 +56,7 @@ require 'rake-n-bake'
 task default: %i[
   bake:check_external_dependencies
   bake:code_quality:all
+  bake:rubocop
   bake:rspec
   bake:coverage:check_specs
   bake:rails_best_practices
@@ -211,6 +212,16 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 end
+}
+  end
+
+  ###############################
+  # Rubocop
+  ###############################
+
+  create_file '.rubocop.yml' do
+%Q{inherit_from:
+  - https://raw.githubusercontent.com/dvmtn/house_style/master/rubocop.yml
 }
   end
 
