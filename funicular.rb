@@ -51,7 +51,8 @@ end
 ###############################
 
 rakefile 'default.rake' do
-  %Q{
+  %Q{Rake::Task["default"].clear if Rake::Task.task_defined?(:default)
+
 require 'rake-n-bake'
 
 task default: %i[
