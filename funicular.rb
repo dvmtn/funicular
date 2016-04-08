@@ -59,7 +59,7 @@ task default: %i[
   bake:rspec
   bake:coverage:check_specs
   bake:rails_best_practices
-  bake:bundler_audit
+  bake:bundle-audit
   notes
   bake:ok_rainbow
 ]
