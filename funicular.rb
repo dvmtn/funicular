@@ -42,6 +42,7 @@ gem_group :development do
   gem 'fasterer',         require: false
   gem 'metric_fu',        require: false
   gem 'rubocop',          require: false
+  gem "rubycritic",       require: false
   gem 'sandi_meter',      require: false
 end
 
@@ -62,6 +63,7 @@ task default: %i[
   bake:rails_best_practices
   bake:bundle-audit
   notes
+  bake:rubycritic
   bake:ok_rainbow
 ]
 }
