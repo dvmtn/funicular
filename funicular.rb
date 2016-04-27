@@ -27,7 +27,9 @@ end
 
 gem_group :development do
   gem 'meta_request'
+  gem 'web-console'
   gem 'coffee-rails-source-maps'
+
   gem 'spring-commands-rspec'
   gem 'erb2haml',         require: false
 
