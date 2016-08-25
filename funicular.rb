@@ -4,8 +4,10 @@
 
 gem 'sass-rails'
 gem 'slim-rails'
+
 gem 'therubyracer',  platforms: :ruby
 gem 'uglifier'
+gem 'lograge'
 
 gem 'rake-n-bake'
 
@@ -28,10 +30,8 @@ end
 gem_group :development do
   gem 'meta_request'
   gem 'web-console'
-  gem 'coffee-rails-source-maps'
 
   gem 'spring-commands-rspec'
-  gem 'erb2haml',         require: false
 
   gem 'guard-bundler',    require: false
   gem 'guard-rspec',      require: false
@@ -241,11 +241,9 @@ end
 
   run 'bundle exec spring binstub rspec'
 
-  rake "haml:replace_erbs"
-
   git :init
   git add: '.'
-  git commit: "-a -m 'Initial commit'"
+  git commit: "-a -m 'Create Rails app from Funicular template'"
   say 'Inital commit created'
 
   rake 'db:create db:migrate db:setup' unless no?("Would you like the database creating? (Y/n)", :yellow)
