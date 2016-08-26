@@ -8,6 +8,7 @@ gem 'slim-rails'
 gem 'therubyracer',  platforms: :ruby
 gem 'uglifier'
 gem 'lograge'
+gem 'rack-attack'
 
 gem 'rake-n-bake'
 
@@ -120,6 +121,14 @@ gsub_file 'Gemfile', /gem 'turbolinks.*\n/, ""
 gsub_file 'app/assets/javascripts/application.js', /\/\/= require turbolinks.*\n/, ""
 gsub_file 'app/views/layouts/application.html.erb', ", 'data-turbolinks-track' => true", ''
 
+
+###############################
+# Prevent hostname injection
+###############################
+
+environment "Rails.application.routes.default_url_options = { host: 'app.example.com', protocol: 'https'}", env: 'production'
+environment "config.action_controller.asset_host = 'app.example.com'",                                      env: 'production'
+
 ###############################
 # Setup a more helpful Sass
 ###############################
@@ -230,6 +239,15 @@ end
 }
   end
 
+  create_file 'config/environments/staging.rb' do
+    %Q{ require Rails.root.join("config/environments/production")
+
+Rails.application.configure do
+  Rails.application.routes.default_url_options = { host: 'app-staging@example.com', protocol: 'https' }
+  config.action_controller.asset_host = "app-staging.example.com"
+end
+}
+  end
   ###############################
   # Misc niceities
   ###############################
