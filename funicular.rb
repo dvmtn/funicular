@@ -10,6 +10,7 @@ gem 'uglifier'
 gem 'lograge'
 gem 'rack-attack'
 gem 'rake-n-bake'
+gem 'lograge'
 
 gem_group :development, :test do
   gem 'spring'
@@ -129,6 +130,13 @@ gsub_file 'app/views/layouts/application.html.erb', ", 'data-turbolinks-track' =
 
 environment "Rails.application.routes.default_url_options = { host: 'app.example.com', protocol: 'https'}", env: 'production'
 environment "config.action_controller.asset_host = 'app.example.com'",                                      env: 'production'
+
+###############################
+# Improved Logging
+###############################
+
+environment "config.lograge.enabled = true", env: 'production'
+environment "config.lograge.enabled = true", env: 'test'
 
 ###############################
 # Setup a more helpful Sass
@@ -279,6 +287,7 @@ Rails.application.configure do
 end
 }
   end
+
   ###############################
   # Misc niceities
   ###############################
