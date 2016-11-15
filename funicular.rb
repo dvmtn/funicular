@@ -5,11 +5,10 @@
 gem 'sass-rails'
 gem 'slim-rails'
 
-gem 'therubyracer',  platforms: :ruby
+gem 'therubyracer', platforms: :ruby
 gem 'uglifier'
 gem 'lograge'
 gem 'rack-attack'
-
 gem 'rake-n-bake'
 
 gem_group :development, :test do
@@ -17,6 +16,8 @@ gem_group :development, :test do
   gem 'pry-byebug'
   gem 'factory_girl_rails'
   gem 'faker'
+  gem 'fuubar'
+  gem 'rspec_junit_formatter'
 end
 
 gem_group :test do
@@ -45,7 +46,7 @@ gem_group :development do
   gem 'fasterer',         require: false
   gem 'metric_fu',        require: false
   gem 'rubocop',          require: false
-  gem "rubycritic",       require: false
+  gem 'rubycritic',       require: false
   gem 'sandi_meter',      require: false
 end
 
@@ -113,7 +114,7 @@ create_file 'db/seeds/development/example.rb', '# Create files in this directory
 # Remove some default cruft
 ###############################
 
-run "rm README.rdoc"
+run 'rm README.rdoc'
 gsub_file 'Gemfile', /#.*\n/, ''
 
 # So long, turbolinks
@@ -176,14 +177,18 @@ after_bundle do
   ###############################
 
   generate(:'rspec:install')
-  inject_into_file 'spec/rails_helper.rb',
-    %Q{
-  require 'capybara/rails'
-  require 'capybara/rspec'
-  require 'support/database_cleaner'
-  require 'shoulda/matchers'
-  },
-    after: "require 'rspec/rails'\n"
+
+  inject_into_file 'spec/spec_helper.rb', before: '# This file was generated' do <<-RUBY
+require 'support/simplecov'
+require 'support/database_cleaner'
+require 'support/rspec_output'
+  RUBY
+
+  inject_into_file 'spec/rails_helper.rb', after: "require 'rspec/rails'\n" do <<-RUBY
+require 'shoulda/matchers'
+require 'capybara/rails'
+require 'capybara/rspec'
+  RUBY
 
   inject_into_file 'spec/rails_helper.rb',
     "  config.include FactoryGirl::Syntax::Methods",
@@ -197,6 +202,16 @@ describe 'Visiting the homepage' do
 end
 }
   end
+
+  ###############################
+  # SimpleCov
+  ###############################
+
+  create_file 'spec/support/simplecov.rb' do <<-RUBY
+require 'simplecov'
+SimpleCov.coverage_dir 'log/coverage/spec'
+SimpleCov.start 'rails'
+  RUBY
 
   ###############################
   # Database Cleaner
@@ -225,6 +240,22 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
+end
+}
+  end
+
+  ###############################
+  # Rspec output
+  ###############################
+
+  create_file 'spec/support/rspec_output.rb' do
+%Q{
+RSpec.configure do |config|
+  config.default_formatter = 'Fuubar'
+  config.default_formatter = 'doc' if config.files_to_run.one?
+  config.default_formatter = 'RspecJunitFormatter' if ENV['CI']
+
+  config.example_status_persistence_file_path = 'log/rspec-run.log'
 end
 }
   end
