@@ -6,7 +6,7 @@ Taking [Rails](http://rubyonrails.org/) the scenic route up [Developer Mountain]
 Usage
 -----
 ```
-rails new <my_awesome_app> -m https://raw.githubusercontent.com/dvmtn/funicular/master/funicular.rb
+rails new <my_awesome_app> -d postgresql -T -m https://raw.githubusercontent.com/dvmtn/funicular/master/funicular.rb
 ```
 
 Features
