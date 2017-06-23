@@ -62,7 +62,6 @@ require 'rake-n-bake'
 
 task default: %i[
   bake:check_external_dependencies
-  bake:code_quality:all
   bake:rubocop
   bake:rspec
   bake:coverage:check_specs
@@ -72,7 +71,7 @@ task default: %i[
   bake:rubycritic
   bake:ok_rainbow
 ]
-}
+  }
 end
 
 ###############################
@@ -80,7 +79,7 @@ end
 ###############################
 remove_file 'db/seeds.rb'
 create_file('db/seeds.rb') do
-%q{
+  %q{
 puts 'Loading seeds...'
 Dir[File.join Rails.root, 'db', 'seeds', 'all', '*.rb'].each do |file|
   puts "  -> #{File.basename file}"
@@ -94,7 +93,7 @@ if Rails.env == 'development'
     require file
   end
 end
-}
+  }
 end
 
 empty_directory 'db/seeds'
@@ -106,7 +105,7 @@ create_file 'db/seeds/all/example.rb' do
 # Create files in this directory to create your seed data .
 # For example:
 #   User.where(name: "Admin").first_or_create(name: "Admin", homepage: "http://devmountain.co.uk", role: :admin)
-}
+  }
 end
 
 create_file 'db/seeds/development/example.rb', '# Create files in this directory to add seed data just for development. See db/seeds/all/example.rb for more.'
@@ -143,36 +142,35 @@ environment "config.lograge.enabled = true", env: 'test'
 ###############################
 
 create_file 'app/assets/stylesheets/reset.scss' do
-%Q{*{
+  %Q{*{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-size: 16px;
 }
-}
+  }
 end
 
 create_file 'app/assets/stylesheets/variables.scss' do
-%Q{$border-radius: 3px;
-}
+  %Q{$border-radius: 3px;}
 end
 
 create_file 'app/assets/stylesheets/mixins.scss' do
-%Q{@mixin border-radius($radius: $border-radius) {
+  %Q{@mixin border-radius($radius: $border-radius) {
   -webkit-border-radius: $radius;
      -moz-border-radius: $radius;
       -ms-border-radius: $radius;
           border-radius: $radius;
 }
-}
+  }
 end
 
 remove_file 'app/assets/stylesheets/application.css'
 create_file 'app/assets/stylesheets/application.css.scss' do
-%Q{@import "variables";
+  %Q{@import "variables";
 @import "reset";
 @import "mixins";
-}
+  }
 end
 
 ###############################
@@ -180,6 +178,7 @@ end
 ###############################
 
 after_bundle do
+
   ###############################
   # Rspec
   ###############################
@@ -191,12 +190,14 @@ require 'support/simplecov'
 require 'support/database_cleaner'
 require 'support/rspec_output'
   RUBY
+  end
 
   inject_into_file 'spec/rails_helper.rb', after: "require 'rspec/rails'\n" do <<-RUBY
 require 'shoulda/matchers'
 require 'capybara/rails'
 require 'capybara/rspec'
   RUBY
+  end
 
   inject_into_file 'spec/rails_helper.rb',
     "  config.include FactoryGirl::Syntax::Methods",
@@ -208,7 +209,7 @@ require 'capybara/rspec'
 describe 'Visiting the homepage' do
   it 'does something cool'
 end
-}
+    }
   end
 
   ###############################
@@ -220,13 +221,14 @@ require 'simplecov'
 SimpleCov.coverage_dir 'log/coverage/spec'
 SimpleCov.start 'rails'
   RUBY
+  end
 
   ###############################
   # Database Cleaner
   ###############################
 
   create_file 'spec/support/database_cleaner.rb' do
-%Q{require 'database_cleaner'
+    %Q{require 'database_cleaner'
 
 RSpec.configure do |config|
   config.before(:suite) do
@@ -249,7 +251,7 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 end
-}
+    }
   end
 
   ###############################
@@ -257,15 +259,15 @@ end
   ###############################
 
   create_file 'spec/support/rspec_output.rb' do
-%Q{
-RSpec.configure do |config|
-  config.default_formatter = 'Fuubar'
-  config.default_formatter = 'doc' if config.files_to_run.one?
-  config.default_formatter = 'RspecJunitFormatter' if ENV['CI']
+    %Q{
+    RSpec.configure do |config|
+      config.default_formatter = 'Fuubar'
+      config.default_formatter = 'doc' if config.files_to_run.one?
+      config.default_formatter = 'RspecJunitFormatter' if ENV['CI']
 
-  config.example_status_persistence_file_path = 'log/rspec-run.log'
-end
-}
+      config.example_status_persistence_file_path = 'log/rspec-run.log'
+    end
+    }
   end
 
   ###############################
@@ -273,19 +275,19 @@ end
   ###############################
 
   create_file '.rubocop.yml' do
-%Q{inherit_from:
-  - https://raw.githubusercontent.com/dvmtn/house_style/master/rubocop.yml
-}
+    %Q{inherit_from:
+     - https://raw.githubusercontent.com/dvmtn/house_style/master/rubocop.yml
+    }
   end
 
   create_file 'config/environments/staging.rb' do
     %Q{ require Rails.root.join("config/environments/production")
 
-Rails.application.configure do
-  Rails.application.routes.default_url_options = { host: 'app-staging@example.com', protocol: 'https' }
-  config.action_controller.asset_host = "app-staging.example.com"
-end
-}
+      Rails.application.configure do
+        Rails.application.routes.default_url_options = { host: 'app-staging@example.com', protocol: 'https' }
+        config.action_controller.asset_host = "app-staging.example.com"
+      end
+    }
   end
 
   ###############################
@@ -321,4 +323,5 @@ end
   say '            /                  \\', :blue
   say '           ----------------------', :blue
   say 'Thank you for choosing the DevMountain Funicular Rails-way!'
+
 end
