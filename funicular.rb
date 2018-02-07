@@ -15,7 +15,7 @@ gem 'lograge'
 gem_group :development, :test do
   gem 'spring'
   gem 'pry-byebug'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'faker'
   gem 'fuubar'
   gem 'rspec_junit_formatter'
@@ -45,7 +45,6 @@ gem_group :development do
   gem 'bullet',           require: false
   gem 'bundler-audit',    require: false
   gem 'fasterer',         require: false
-  gem 'metric_fu',        require: false
   gem 'rubocop',          require: false
   gem 'rubycritic',       require: false
   gem 'sandi_meter',      require: false
@@ -66,9 +65,9 @@ task default: %i[
   bake:rspec
   bake:coverage:check_specs
   bake:rails_best_practices
+  bake:rubycritic
   bake:bundle-audit
   notes
-  bake:rubycritic
   bake:ok_rainbow
 ]
   }
